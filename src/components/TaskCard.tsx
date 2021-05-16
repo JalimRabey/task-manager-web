@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex, Text, useBoolean } from '@chakra-ui/react'
+import { Button, Checkbox, Flex, Text } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
 
 export type Task = {
@@ -10,18 +10,22 @@ export type Task = {
 }
 
 export type TaskCardProps = {
+  onToggleComplete: (taskId: string | number) => void
   onDelete: (taskId: string | number) => void
 } & Task
 
 const TaskCard = ({
   id,
-  completed = false,
+  completed,
   title,
   description,
   updatedAt,
+  onToggleComplete,
   onDelete
 }: TaskCardProps) => {
-  const [isCompleted, setIsCompleted] = useBoolean(completed)
+  const handleToggleComplete = () => {
+    onToggleComplete(id)
+  }
 
   const handleDeleteTask = () => {
     onDelete(id)
@@ -42,8 +46,8 @@ const TaskCard = ({
           width="full"
           flexDirection="row-reverse"
           justifyContent="space-between"
-          isChecked={isCompleted}
-          onChange={setIsCompleted.toggle}
+          isChecked={completed}
+          onChange={handleToggleComplete}
         >
           <Text
             as="h2"
@@ -53,7 +57,7 @@ const TaskCard = ({
             noOfLines={1}
             whiteSpace="normal"
             paddingRight="2"
-            textDecoration={isCompleted ? 'line-through' : 'none'}
+            textDecoration={completed ? 'line-through' : 'none'}
           >
             {title}
           </Text>

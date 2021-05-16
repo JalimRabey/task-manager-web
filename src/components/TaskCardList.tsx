@@ -5,9 +5,14 @@ import TaskCard, { Task } from 'components/TaskCard'
 type TaskCardListProps = {
   tasks: Task[]
   onRemoveTask: (taskId: string | number) => void
+  onCompleteTask: (taskId: string | number) => void
 }
 
-const TaskCardList = ({ tasks, onRemoveTask }: TaskCardListProps) => {
+const TaskCardList = ({
+  tasks,
+  onRemoveTask,
+  onCompleteTask
+}: TaskCardListProps) => {
   if (!tasks.length) return null
 
   return (
@@ -26,6 +31,7 @@ const TaskCardList = ({ tasks, onRemoveTask }: TaskCardListProps) => {
             completed={task.completed}
             updatedAt={task.updatedAt}
             onDelete={onRemoveTask}
+            onToggleComplete={onCompleteTask}
           />
         ))}
       </Grid>

@@ -19,6 +19,20 @@ const HomeTemplate = () => {
     TasksResources.save(updatedTasks)
   }
 
+  const handleCompleteTask = (taskId: string | number) => {
+    const updatedTasks = tasks.map((task) => {
+      if (task.id !== taskId) return task
+
+      return {
+        ...task,
+        completed: !task.completed
+      }
+    })
+
+    setTasks([...updatedTasks])
+    TasksResources.save([...updatedTasks])
+  }
+
   const handleRemoveTask = (taskId: string | number) => {
     const updatedTasks = tasks.filter((task) => task.id !== taskId)
 
@@ -36,7 +50,11 @@ const HomeTemplate = () => {
       <Wrapper pb="6">
         <AddTaskForm expanded={!tasks.length} onSubmit={handleAddNewTask} />
 
-        <TaskCardList tasks={tasks} onRemoveTask={handleRemoveTask} />
+        <TaskCardList
+          tasks={tasks}
+          onRemoveTask={handleRemoveTask}
+          onCompleteTask={handleCompleteTask}
+        />
       </Wrapper>
     </BaseTemplate>
   )
