@@ -21,10 +21,11 @@ const initialFormData = {
 }
 
 type AddTaskFormProps = {
+  expanded?: boolean
   onSubmit: (task: Task) => void
 }
 
-const AddTaskForm = ({ onSubmit }: AddTaskFormProps) => {
+const AddTaskForm = ({ expanded = false, onSubmit }: AddTaskFormProps) => {
   const [formData, setFormData] = useState(initialFormData)
 
   const handleChange = (
@@ -53,7 +54,7 @@ const AddTaskForm = ({ onSubmit }: AddTaskFormProps) => {
   }
 
   return (
-    <Accordion allowToggle>
+    <Accordion allowToggle defaultIndex={expanded ? [0] : undefined}>
       <AccordionItem>
         <AccordionButton>
           <Heading flex="1" textAlign="left" fontSize="xl">

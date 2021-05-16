@@ -10,7 +10,7 @@ import AddTaskForm from 'components/AddTaskForm'
 import { tasks as mockTasks } from 'mocks/task'
 
 const Home = () => {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks)
+  const [tasks, setTasks] = useState<Task[]>([...mockTasks])
 
   const handleAddNewTask = (newTask: Task) => {
     setTasks([...tasks, newTask])
@@ -25,7 +25,7 @@ const Home = () => {
   return (
     <BaseTemplate>
       <Wrapper pb="6">
-        <AddTaskForm onSubmit={handleAddNewTask} />
+        <AddTaskForm expanded={!tasks.length} onSubmit={handleAddNewTask} />
 
         <TaskCardList tasks={tasks} onRemoveTask={handleRemoveTask} />
       </Wrapper>
