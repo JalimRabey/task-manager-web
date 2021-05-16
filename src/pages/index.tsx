@@ -1,18 +1,36 @@
-import { Heading } from '@chakra-ui/layout'
+import { useState } from 'react'
 
 import BaseTemplate from 'templates/Base'
 
+import { Task } from 'components/TaskCard'
 import Wrapper from 'components/Wrapper'
 import TaskCardList from 'components/TaskCardList'
+import AddTaskForm from 'components/AddTaskForm'
 
-const Home = () => (
-  <BaseTemplate>
-    <Wrapper>
-      <Heading as="h1" textAlign="center" mt="4">Tasks</Heading>
+import { tasks as mockTasks } from 'mocks/task'
 
-      <TaskCardList />
-    </Wrapper>
-  </BaseTemplate>
-)
+const Home = () => {
+  const [tasks, setTasks] = useState<Task[]>(mockTasks)
+
+  const handleAddNewTask = (newTask: Task) => {
+    setTasks([...tasks, newTask])
+  }
+
+  const handleRemoveTask = (taskId: string | number) => {
+    const updatedTasks = tasks.filter((task) => task.id !== taskId)
+
+    setTasks([...updatedTasks])
+  }
+
+  return (
+    <BaseTemplate>
+      <Wrapper pb="6">
+        <AddTaskForm onSubmit={handleAddNewTask} />
+
+        <TaskCardList tasks={tasks} onRemoveTask={handleRemoveTask} />
+      </Wrapper>
+    </BaseTemplate>
+  )
+}
 
 export default Home
