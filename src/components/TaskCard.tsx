@@ -1,5 +1,7 @@
-import { Button, Checkbox, Flex, Text } from '@chakra-ui/react'
+import { Button, Checkbox, Flex, Text, useDisclosure } from '@chakra-ui/react'
 import { FaTrash } from 'react-icons/fa'
+
+import ConfirmRemoveTaskModal from 'components/ConfirmRemoveTaskModal'
 
 export type Task = {
   id: string | number
@@ -23,8 +25,22 @@ const TaskCard = ({
   onToggleComplete,
   onDelete
 }: TaskCardProps) => {
+  const {
+    isOpen: isConfirmationModalOpen,
+    onOpen: onOpenConfirmationModal,
+    onClose: onCloseConfirmationModal
+  } = useDisclosure()
+
   const handleToggleComplete = () => {
     onToggleComplete(id)
+  }
+
+  const handleDeleteButtonClick = () => {
+    onOpenConfirmationModal()
+  }
+
+  const handleCloseConfirmationModal = () => {
+    onCloseConfirmationModal()
   }
 
   const handleDeleteTask = () => {
@@ -32,62 +48,72 @@ const TaskCard = ({
   }
 
   return (
-    <Flex
-      flexDirection="column"
-      border="1px"
-      borderColor="teal.500"
-      borderRadius="sm"
-      paddingTop="4"
-      paddingBottom="2"
-    >
-      <Flex as="header" paddingRight="6" paddingLeft="4">
-        <Checkbox
-          display="flex"
-          width="full"
-          flexDirection="row-reverse"
-          justifyContent="space-between"
-          isChecked={completed}
-          onChange={handleToggleComplete}
-        >
-          <Text
-            as="h2"
-            fontWeight="bold"
-            size="md"
-            isTruncated
-            noOfLines={1}
-            whiteSpace="normal"
-            paddingRight="2"
-            textDecoration={completed ? 'line-through' : 'none'}
-          >
-            {title}
-          </Text>
-        </Checkbox>
-      </Flex>
-
-      <Text paddingX="6" mt="2">
-        {description}
-      </Text>
-
+    <>
       <Flex
-        as="footer"
-        paddingLeft="6"
-        paddingRight="2"
-        mt="4"
-        alignItems="center"
-        justifyContent="space-between"
+        flexDirection="column"
+        border="1px"
+        borderColor="teal.500"
+        borderRadius="sm"
+        paddingTop="4"
+        paddingBottom="2"
       >
-        <Text>Updated at {updatedAt}</Text>
+        <Flex as="header" paddingRight="6" paddingLeft="4">
+          <Checkbox
+            display="flex"
+            width="full"
+            flexDirection="row-reverse"
+            justifyContent="space-between"
+            isChecked={completed}
+            onChange={handleToggleComplete}
+          >
+            <Text
+              as="h2"
+              fontWeight="bold"
+              size="md"
+              isTruncated
+              noOfLines={1}
+              whiteSpace="normal"
+              paddingRight="2"
+              textDecoration={completed ? 'line-through' : 'none'}
+            >
+              {title}
+            </Text>
+          </Checkbox>
+        </Flex>
 
-        <Button
-          variant="ghost"
-          color="red.500"
-          _hover={{ backgroundColor: 'trasparent', color: 'red.700' }}
-          onClick={handleDeleteTask}
+        <Text paddingX="6" mt="2">
+          {description}
+        </Text>
+
+        <Flex
+          as="footer"
+          paddingLeft="6"
+          paddingRight="2"
+          mt="4"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          <FaTrash />
-        </Button>
+          <Text>Updated at {updatedAt}</Text>
+
+          <Button
+            variant="ghost"
+            color="red.500"
+            _hover={{ backgroundColor: 'trasparent', color: 'red.700' }}
+            onClick={handleDeleteButtonClick}
+          >
+            <FaTrash />
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
+
+      <ConfirmRemoveTaskModal
+        taskTitle={title}
+        taskIsCompleted={completed}
+        isOpen={isConfirmationModalOpen}
+        onClose={handleCloseConfirmationModal}
+        onRemove={handleDeleteTask}
+      />
+    </>
   )
 }
 
