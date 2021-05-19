@@ -51,39 +51,42 @@ const TaskCard = ({
     <>
       <Flex
         flexDirection="column"
+        justifyContent="space-between"
         border="1px"
         borderColor="teal.500"
         borderRadius="sm"
         paddingTop="4"
         paddingBottom="2"
       >
-        <Flex as="header" paddingRight="6" paddingLeft="4">
-          <Checkbox
-            display="flex"
-            width="full"
-            flexDirection="row-reverse"
-            justifyContent="space-between"
-            isChecked={completed}
-            onChange={handleToggleComplete}
-          >
-            <Text
-              as="h2"
-              fontWeight="bold"
-              size="md"
-              isTruncated
-              noOfLines={1}
-              whiteSpace="normal"
-              paddingRight="2"
-              textDecoration={completed ? 'line-through' : 'none'}
+        <div>
+          <Flex as="header" paddingRight="6" paddingLeft="4">
+            <Checkbox
+              display="flex"
+              width="full"
+              flexDirection="row-reverse"
+              justifyContent="space-between"
+              isChecked={completed}
+              onChange={handleToggleComplete}
             >
-              {title}
-            </Text>
-          </Checkbox>
-        </Flex>
+              <Text
+                as="h2"
+                fontWeight="bold"
+                size="md"
+                isTruncated
+                noOfLines={1}
+                whiteSpace="normal"
+                paddingRight="2"
+                textDecoration={completed ? 'line-through' : 'none'}
+              >
+                {title}
+              </Text>
+            </Checkbox>
+          </Flex>
 
-        <Text paddingX="6" mt="2">
-          {description}
-        </Text>
+          <Text paddingX="6" mt="2">
+            {description}
+          </Text>
+        </div>
 
         <Flex
           as="footer"
